@@ -1,0 +1,15 @@
+{
+  "name": "mtb-share",
+  "version": "1.0.0",
+  "description": "Deployable peer to peer social media app for mountain bike riders.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "check": "node --check server.js && node --check app.js && node --check sw.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED"
+}

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f4f6f3" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="MTB Share" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="description" content="A peer to peer social app for mountain bike riders to upload ride photos and videos." />
+    <title>MTB Share</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell" aria-label="MTB Share">
+      <div class="terrain" aria-hidden="true">
+        <svg viewBox="0 0 430 932" preserveAspectRatio="none">
+          <path d="M-26 145 C84 84 156 188 250 123 C317 77 363 101 456 40" />
+          <path d="M-30 257 C91 190 150 292 251 230 C322 187 382 220 455 158" />
+          <path d="M-26 375 C78 308 135 410 230 343 C305 291 360 336 456 270" />
+          <path d="M-28 515 C66 438 142 522 226 454 C309 386 365 455 456 381" />
+          <path d="M-24 674 C70 586 152 688 250 604 C324 541 377 591 456 512" />
+          <path class="hero-trail" d="M60 856 C94 764 50 688 112 610 C168 538 128 462 184 384 C236 312 199 230 270 164 C303 132 340 102 376 70" />
+          <circle cx="112" cy="610" r="7" />
+          <circle class="hot" cx="184" cy="384" r="7" />
+          <circle cx="270" cy="164" r="7" />
+        </svg>
+      </div>
+
+      <header class="top-bar">
+        <div>
+          <p class="kicker">MTB Share</p>
+          <h1 id="screenTitle">Upload Feed</h1>
+        </div>
+        <div class="top-actions">
+          <button class="round-button" type="button" id="notifyButton" aria-label="Notifications">
+            <span class="bell-icon" aria-hidden="true"></span>
+            <span class="badge-dot" aria-hidden="true"></span>
+          </button>
+          <button class="avatar-button" type="button" data-screen="profile" id="topAvatar" aria-label="Open profile">--</button>
+        </div>
+      </header>
+
+      <section class="quick-post glass" aria-label="Create a post">
+        <button class="avatar-button small" type="button" data-screen="profile" id="quickAvatar" aria-label="Open profile">--</button>
+        <button class="post-prompt" type="button" id="openComposer">Upload a ride photo or video</button>
+        <button class="round-button hot" type="button" id="liveRideButton" aria-label="Start live ride">
+          <span class="arrow-icon" aria-hidden="true"></span>
+        </button>
+      </section>
+
+      <section class="screen active" id="homeScreen" aria-labelledby="screenTitle">
+        <section class="upload-hero glass">
+          <div>
+            <p class="kicker">Real Rider Media</p>
+            <h2>No stock feed. No seeded posts.</h2>
+            <p>Every photo and video here comes from an uploaded file.</p>
+          </div>
+          <button class="primary-button" type="button" data-compose-type="video">Upload</button>
+        </section>
+        <nav class="segmented glass" aria-label="Feed filters">
+          <button class="active" type="button" data-feed="all">Flow</button>
+          <button type="button" data-feed="rides">Rides</button>
+          <button type="button" data-feed="reports">Reports</button>
+        </nav>
+
+        <div class="scroll-stack" id="feedList" aria-live="polite"></div>
+      </section>
+
+      <section class="screen" id="mapScreen" aria-label="Trail map">
+        <div class="map-panel glass">
+          <div class="map-canvas" aria-label="Local trail map">
+            <div class="trail-route one"></div>
+            <div class="trail-route two"></div>
+            <button class="map-pin pin-a" type="button" data-toast="Avery is rolling in 12 minutes">AK</button>
+            <button class="map-pin pin-b" type="button" data-toast="Quarry Ridge has hero dirt">QR</button>
+            <button class="map-pin pin-c" type="button" data-toast="Cam is looking for a no-drop lap">CT</button>
+          </div>
+          <div class="map-sheet">
+            <p class="kicker">Near You</p>
+            <h2>6 riders, 4 trails, 2 group starts</h2>
+            <p>Peer discovery is private by default. Only ride pings you approve can reveal your exact meet spot.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen video-screen" id="videosScreen" aria-label="Video feed">
+        <div class="video-feed" id="videoFeed"></div>
+      </section>
+
+      <section class="screen" id="postScreen" aria-label="Create">
+        <div class="create-grid">
+          <button class="create-card glass" type="button" data-compose-type="ride">
+            <span class="card-icon plus"></span>
+            <strong>Plan Ride</strong>
+            <small>Start time, pace, distance, meet spot</small>
+          </button>
+          <button class="create-card glass" type="button" data-compose-type="report">
+            <span class="card-icon flag"></span>
+            <strong>Trail Report</strong>
+            <small>Dirt, closures, trees down, hazards</small>
+          </button>
+          <button class="create-card glass" type="button" data-compose-type="route">
+            <span class="card-icon route"></span>
+            <strong>Drop Route</strong>
+            <small>Miles, climbing, skill level, GPX notes</small>
+          </button>
+          <button class="create-card glass" type="button" data-compose-type="video">
+            <span class="card-icon video"></span>
+            <strong>Upload Media</strong>
+            <small>Post a real photo or video from your ride</small>
+          </button>
+        </div>
+      </section>
+
+      <section class="screen" id="clubsScreen" aria-label="Clubs">
+        <div class="scroll-stack" id="clubList"></div>
+      </section>
+
+      <section class="screen" id="analyticsScreen" aria-label="Creator analytics">
+        <div class="scroll-stack" id="analyticsPanel"></div>
+      </section>
+
+      <section class="screen" id="profileScreen" aria-label="Profile">
+        <div class="profile-card glass">
+          <div class="profile-head">
+            <div class="avatar-button large" id="profileAvatar">--</div>
+            <div>
+              <p class="kicker">Rider</p>
+              <h2 id="profileName">Sign in</h2>
+              <p id="profileBio">Create an account to post, request rides, comment, and join crews.</p>
+            </div>
+          </div>
+          <div class="stats-grid">
+            <span><strong id="profileMiles">0</strong> mi</span>
+            <span><strong id="profileRides">0</strong> rides</span>
+            <span><strong id="profilePeers">0</strong> peers</span>
+          </div>
+          <button class="primary-button" type="button" id="authButton">Sign In or Join</button>
+          <button class="secondary-button" type="button" id="logoutButton" hidden>Log Out</button>
+        </div>
+      </section>
+
+      <nav class="tab-bar glass" aria-label="Primary navigation">
+        <button class="active" type="button" data-screen="home"><span class="tab-icon home"></span>Home</button>
+        <button type="button" data-screen="videos"><span class="tab-icon videos"></span>Videos</button>
+        <button type="button" data-screen="post"><span class="tab-icon post"></span>Post</button>
+        <button type="button" data-screen="analytics"><span class="tab-icon analytics"></span>Stats</button>
+        <button type="button" data-screen="profile"><span class="tab-icon profile"></span>Me</button>
+      </nav>
+    </main>
+
+    <dialog class="composer-modal glass" id="composerDialog" aria-labelledby="composerTitle">
+      <form method="dialog" id="composerForm">
+        <header>
+          <h2 id="composerTitle">Share with riders</h2>
+          <button class="round-button" type="submit" value="cancel" aria-label="Close">
+            <span class="close-icon" aria-hidden="true"></span>
+          </button>
+        </header>
+        <label>
+          <span>Post type</span>
+          <select id="postType" name="postType">
+            <option value="ride">Ride invite</option>
+            <option value="report">Trail report</option>
+            <option value="route">Route share</option>
+            <option value="video">Video or photo</option>
+          </select>
+        </label>
+        <label>
+          <span>Message</span>
+          <textarea id="postText" name="postText">Rolling from the west lot at 6:15. Who wants a no-drop lap?</textarea>
+        </label>
+        <div class="compose-options">
+          <label><span>Trail</span><input id="postTrail" name="postTrail" value="Blue Mountain loop" /></label>
+          <label><span>Pace</span><input id="postPace" name="postPace" value="Moderate" /></label>
+        </div>
+        <label>
+          <span>Photo or video</span>
+          <input id="postMedia" name="postMedia" type="file" accept="image/*,video/mp4,video/quicktime,video/webm" />
+        </label>
+        <div class="modal-actions">
+          <button type="submit" value="cancel">Draft</button>
+          <button class="primary-button" type="submit" value="post">Post</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="composer-modal glass" id="authDialog" aria-labelledby="authTitle">
+      <form method="dialog" id="authForm">
+        <header>
+          <h2 id="authTitle">Join MTB Share</h2>
+          <button class="round-button" type="submit" value="cancel" aria-label="Close">
+            <span class="close-icon" aria-hidden="true"></span>
+          </button>
+        </header>
+        <label>
+          <span>Name</span>
+          <input id="authName" name="name" autocomplete="name" value="James Herrmann" />
+        </label>
+        <label>
+          <span>Handle</span>
+          <input id="authHandle" name="handle" autocomplete="username" value="james" />
+        </label>
+        <label>
+          <span>Password</span>
+          <input id="authPassword" name="password" type="password" autocomplete="current-password" value="trailtime" />
+        </label>
+        <div class="modal-actions">
+          <button type="submit" value="login">Log In</button>
+          <button class="primary-button" type="submit" value="signup">Create Account</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="composer-modal glass" id="commentDialog" aria-labelledby="commentTitle">
+      <form method="dialog" id="commentForm">
+        <header>
+          <h2 id="commentTitle">Add Comment</h2>
+          <button class="round-button" type="submit" value="cancel" aria-label="Close">
+            <span class="close-icon" aria-hidden="true"></span>
+          </button>
+        </header>
+        <label>
+          <span>Comment</span>
+          <textarea id="commentText" name="commentText">See you there.</textarea>
+        </label>
+        <div class="modal-actions">
+          <button type="submit" value="cancel">Cancel</button>
+          <button class="primary-button" type="submit" value="comment">Post Comment</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast glass" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
